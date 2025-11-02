@@ -1,0 +1,5 @@
+# Uninstall Prometheus and Grafana
+helm uninstall prometheus-stack -n monitoring
+
+# Delete namespace
+kubectl delete namespace monitoring

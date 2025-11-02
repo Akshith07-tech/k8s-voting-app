@@ -1,60 +1,81 @@
-# K8s Kind Voting App
+# 🧠 K8s Vote App — Kubernetes Monitoring Setup (Prometheus & Grafana)
 
-A comprehensive guide for setting up a Kubernetes cluster using Kind on an AWS EC2 instance, installing and configuring Argo CD, and deploying applications using Argo CD.
+This project demonstrates how to deploy and monitor a **Kubernetes-based application** (`k8s-vote-app`) using **Prometheus** and **Grafana** on **Minikube**. It includes setup instructions for Helm-based monitoring stack and integration with your cluster for real-time metrics visualization.
 
-## Overview
+---
 
-This guide covers the steps to:
-- Launch an AWS EC2 instance.
-- Install Docker and Kind.
-- Create a Kubernetes cluster using Kind.
-- Install and access kubectl.
-- Set up the Kubernetes Dashboard.
-- Install and configure Argo CD.
-- Connect and manage your Kubernetes cluster with Argo CD.
+## 🏗️ Project Overview
+
+**Stack Components:**
+- 🐳 **Docker Desktop** — local Kubernetes environment
+- ☸️ **Minikube** — single-node local Kubernetes cluster
+- ⚙️ **Helm** — package manager for Kubernetes
+- 📊 **Prometheus** — metrics collection & alerting
+- 📈 **Grafana** — visualization and dashboarding
+- 🧱 **Kubernetes Manifests / Helm charts** — for app & monitoring setup
+
+**Goal:**  
+Deploy an app on Minikube and monitor it using Prometheus and Grafana (installed via Helm).
+
+---
+
+## 🚀 Prerequisites
+
+Make sure you have these tools installed:
+
+| Tool | Version (Recommended) | Install Command |
+|------|------------------------|----------------|
+| Docker Desktop | Latest | [Download here](https://www.docker.com/products/docker-desktop/) |
+| Minikube | v1.33+ | `choco install minikube` (Windows) / `brew install minikube` (Mac) |
+| Kubectl | v1.29+ | `choco install kubernetes-cli` |
+| Helm | v3.14+ | `choco install kubernetes-helm` |
+| Git | Any | `choco install git` |
+
+---
+
+## ⚡ Step-by-Step Setup
+
+### 1️⃣ Start Docker Desktop
+Ensure Docker Desktop is **running** before starting Minikube.
+
+### 2️⃣ Start Minikube
+```bash
+minikube start --driver=docker
+(verify):
+kubectl get nodes
+
+### 3️⃣ Create a Namespace
+# We’ll create a dedicated namespace for monitoring tools:
+```bash
+kubectl create namespace monitoring
+(confirm):
+kubectl get ns
+
+### 4️⃣ Add the Prometheus Helm Chart Repo
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+
+### 5️⃣ Install Prometheus & Grafana Stack
+```bash
+helm install prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring
+
+### 6️⃣ Access Prometheus
+```bash
+kubectl port-forward svc/prometheus-stack-kube-prom-prometheus -n monitoring 9090:9090
+
+### 7️⃣ Access Grafana
+```bash
+kubectl port-forward svc/prometheus-stack-grafana -n monitoring 3000:80
+
+Default Grafana credentials:
+- Username: admin
+- Password: kubectl get secret prometheus-stack-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 
 
-## Architecture
-
-![Architecture diagram](k8s-kind-voting-app.png)
-
-## Observability
-
-![Grafana diagram](grafana.png)
-![Prometheus diagram](prometheus.png)
-
-* A front-end web app in [Python](/vote) which lets you vote between two options
-* A [Redis](https://hub.docker.com/_/redis/) which collects new votes
-* A [.NET](/worker/) worker which consumes votes and stores them in…
-* A [Postgres](https://hub.docker.com/_/postgres/) database backed by a Docker volume
-* A [Node.js](/result) web app which shows the results of the voting in real time
 
 
 
-## Resume Description
-
-### Project Title: 
-
-Automated Deployment of Scalable Applications on AWS EC2 with Kubernetes and Argo CD
-
-### Description: 
-
-Led the deployment of scalable applications on AWS EC2 using Kubernetes and Argo CD for streamlined management and continuous integration. Orchestrated deployments via Kubernetes dashboard, ensuring efficient resource utilization and seamless scaling.
-
-### Key Technologies:
-
-* AWS EC2: Infrastructure hosting for Kubernetes clusters.
-* Kubernetes Dashboard: User-friendly interface for managing containerized applications.
-* Argo CD: Continuous Delivery tool for automated application deployments.
-
-### Achievements:
-
-Implemented Kubernetes dashboard for visual management of containerized applications on AWS EC2 instances.
-Utilized Argo CD for automated deployment pipelines, enhancing deployment efficiency by 60%.
-Achieved seamless scaling and high availability, supporting 99.9% uptime for critical applications.
-This project description emphasizes your role in leveraging AWS EC2, Kubernetes, and Argo CD to optimize application deployment and management processes effectively.
 
 
-### Aapke DevOps Wale Bhaiya
-### [TrainWithShubham](https://www.trainwithshubham.com/)
 
