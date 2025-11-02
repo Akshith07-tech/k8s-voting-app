@@ -35,42 +35,61 @@ Make sure you have these tools installed:
 
 ## ⚡ Step-by-Step Setup
 
-### 1️⃣ Start Docker Desktop
-Ensure Docker Desktop is **running** before starting Minikube.
-
-### 2️⃣ Start Minikube
 ```bash
+# 1️⃣ Start Docker Desktop
+# Ensure Docker Desktop is running before starting Minikube.
+
 minikube start --driver=docker
-(verify):
+
+# (verify)
 kubectl get nodes
 
-### 3️⃣ Create a Namespace
+
+# 2️⃣ Create a Namespace
 # We’ll create a dedicated namespace for monitoring tools:
-```bash
+
 kubectl create namespace monitoring
-(confirm):
+
+# (confirm)
 kubectl get ns
 
-### 4️⃣ Add the Prometheus Helm Chart Repo
-```bash
+
+# 3️⃣ Add the Prometheus Helm Chart Repo
+
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 
-### 5️⃣ Install Prometheus & Grafana Stack
-```bash
+
+# 4️⃣ Install Prometheus & Grafana Stack
+
 helm install prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring
 
-### 6️⃣ Access Prometheus
-```bash
+
+# 5️⃣ Access Prometheus
+
 kubectl port-forward svc/prometheus-stack-kube-prom-prometheus -n monitoring 9090:9090
 
-### 7️⃣ Access Grafana
-```bash
+
+# 6️⃣ Access Grafana
+
 kubectl port-forward svc/prometheus-stack-grafana -n monitoring 3000:80
 
-Default Grafana credentials:
-- Username: admin
-- Password: kubectl get secret prometheus-stack-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+# Default Grafana credentials:
+# Username: admin
+# Password:
+kubectl get secret prometheus-stack-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+## 🧠 Observability
+
+<p align="center">
+  <img src="./images/grafana-dashboard.png" width="700" alt="Prometheus Dashboard">
+</p>
+
+<p align="center">
+  <img src="./images/grafana2.png" width="700" alt="Grafana Dashboard">
+</p>
+
 
 
 
