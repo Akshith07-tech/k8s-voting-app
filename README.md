@@ -83,12 +83,13 @@ kubectl get secret prometheus-stack-grafana -n monitoring -o jsonpath="{.data.ad
 ## 🧠 Observability
 
 <p align="center">
-  <img src="./images/grafana-dashboard.png" width="700" alt="Prometheus Dashboard">
+  <img src="./images/grafana-dashboard.png" width="700" alt="Grafana Dashboard">
 </p>
 
 <p align="center">
-  <img src="./images/grafana2.png" width="700" alt="Grafana Dashboard">
+  <img src="./images/grafana2.png" width="700" alt="Grafana Dashboard 2">
 </p>
+
 
 
 
