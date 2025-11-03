@@ -19,6 +19,17 @@ Deploy an app on Minikube and monitor it using Prometheus and Grafana (installed
 
 ---
 
+## 🧠 Observability
+
+<p align="center">
+  <img src="./images/grafana-dashboard.png" width="700" alt="Grafana Dashboard">
+</p>
+
+<p align="center">
+  <img src="./images/grafana2.png" width="700" alt="Grafana Dashboard 2">
+</p>
+
+
 ## 🚀 Prerequisites
 
 Make sure you have these tools installed:
@@ -80,15 +91,7 @@ kubectl port-forward svc/prometheus-stack-grafana -n monitoring 3000:80
 # Password:
 kubectl get secret prometheus-stack-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 
-## 🧠 Observability
 
-<p align="center">
-  <img src="./images/grafana-dashboard.png" width="700" alt="Grafana Dashboard">
-</p>
-
-<p align="center">
-  <img src="./images/grafana2.png" width="700" alt="Grafana Dashboard 2">
-</p>
 
 
 
